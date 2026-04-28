@@ -112,10 +112,19 @@
         "enable_transparent_header_collection": false,
         "collection_color_scheme": "default"
       }
+    },
+    "featured_products_task_R4RcaG": {
+      "type": "featured-products-task",
+      "name": "Featured Product",
+      "settings": {
+        "product_title": "First Product",
+        "content": ""
+      }
     }
   },
   "order": [
     "header_announcements_9jGBFp",
-    "header_section"
+    "header_section",
+    "featured_products_task_R4RcaG"
   ]
 }
