@@ -14,43 +14,21 @@
         </div>
         <div class="product-content">
             <div class="product-content_title">
-                {% if section.settings.product_title != blank %}
-                    <h2>{{ section.settings.product_title }}</h2>
-                    {% else %}
-                        {% if product.title != blank %}
-                            <h2>{{ product.title }}</h2>
-                        {% endif %}
+                {% if product.title != blank %}
+                    <h2>{{ product.title }}</h2>
                 {% endif %}
                 {% if product.vendor != blank %}
                     <span>{{ product.vendor }}</span>
                 {% endif %}
                     <div>
-                        {% if section.settings.product_price != blank and section.settings.product_compare_at_price != blank %}
-                            {% if section.settings.product_compare_at_price != blank and section.settings.compare_at_price > section.settings.product_price %}
-                                <div style="display: flex; gap: 10px">
-                                    <span>Discount: {{ product.price | money }}</span>
-                                    <span class="product-old-price">Original Price: {{ product.compare_at_price | money }}</span>
-                                </div>
-                                {% else %}
-                                    <span>Price: {{ product.compare_at_price | money }}</span>
-                            {% endif %}
+                        {% if product.compare_at_price != blank and product.compare_at_price > product.price %}
+                            <div style="display: flex; gap: 10px">
+                                <span>Discount: {{ product.price | money }}</span>
+                                <span class="product-old-price">Original Price: {{ product.compare_at_price | money }}</span>
+                            </div>
                             {% else %}
-                            {% if product.compare_at_price != blank and product.compare_at_price > product.price %}
-                                <div style="display: flex; gap: 10px">
-                                    <span>Discount: {{ product.price | money }}</span>
-                                    <span class="product-old-price">Original Price: {{ product.compare_at_price | money }}</span>
-                                </div>
-                                {% else %}
-                                <span>Price: {{ product.compare_at_price | money }}</span>
-                            {% endif %}
+                            <span>Price: {{ product.compare_at_price | money }}</span>
                         {% endif %}
-                        <div>
-                            {% comment %} {{- product. | inline_asset_content -}} {% endcomment %}
-                        </div>
-                    </div>
-                    <div style="display: flex; flex-direction: column">
-                        <span style="text-decoration: underline">What's My Size?</span>
-                        <span style="text-decoration: underline">Size Guide</span>
                     </div>
             </div>
             <div class="product-content_variants">
@@ -107,16 +85,10 @@
                 <div>
                     <p>Product Details</p>
                     <div>
-                        {% if section.settings.content != blank %}
+                        {% if product.description != blank %}
                             <p>
-                                {{ section.settings.content }}
+                                {{ product.description }}
                             </p>
-                            {% else %}
-                                {% if product.description != blank %}
-                                    <p>
-                                        {{ product.description }}
-                                    </p>
-                                {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -130,6 +102,11 @@
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+    }
+    section {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
     }
     .product-section {
         width: 100%;
