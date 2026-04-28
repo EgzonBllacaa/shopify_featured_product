@@ -1,0 +1,150 @@
+{% assign product = section.settings.featured_product %}
+
+<section class="product-card-section" data-section-id="{{ section.id }}">
+  <div class="card-container">
+    {% if product != blank %}
+      <div class="product-image">
+        <img src="{{ product.featured_image | img_url: '600x600' }}" alt="{{ product.title }}" width="" height="" id="product-image-{{ section.id }}">
+      </div>
+
+      <div class="product-info">
+        <h2>{{ product.title }}</h2>
+        
+        <p class="product-price" id="price-{{ section.id }}">
+          {{ product.selected_or_first_available_variant.price | money }}
+        </p>
+
+        {% form 'product', product, id: "product-form-{{ section.id }}" %}
+          {% unless product.has_only_default_variant %}
+            <div class="variant-selector">
+              <label for="variant-select-{{ section.id }}">Select Option</label>
+              <select name="id" id="variant-select-{{ section.id }}" class="variant-dropdown">
+                {% for variant in product.variants %}
+                  <option value="{{ variant.id }}" 
+                    data-price="{{ variant.price | money }}"
+                    data-image="{{ variant.featured_image | img_url: '600x600' }}"
+                    {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                    {% unless variant.available %}disabled{% endunless %}>
+                    {{ variant.title }} - {% if variant.available %}In Stock{% else %}Sold Out{% endif %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% else %}
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+          {% endunless %}
+
+          <button type="submit" class="add-to-cart-btn" {% unless product.available %}disabled{% endunless %}>
+            {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+          </button>
+        {% endform %}
+      </div>
+    {% else %}
+      <p>Please select a product in the section settings.</p>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sectionId = "{{ section.id }}";
+    const selector = document.getElementById(`variant-select-${sectionId}`);
+    const priceDisplay = document.getElementById(`price-${sectionId}`);
+    const mainImage = document.getElementById(`product-image-${sectionId}`);
+
+    if (selector) {
+      selector.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        
+        // Update Price
+        const newPrice = selectedOption.getAttribute('data-price');
+        priceDisplay.textContent = newPrice;
+
+        // Update Image (if variant has one)
+        const newImage = selectedOption.getAttribute('data-image');
+        if (newImage && !newImage.includes('no-image')) {
+          mainImage.src = newImage;
+        }
+      });
+    }
+  });
+</script>
+
+{% stylesheet %}
+    .product-card-section { padding: 40px; display: flex; justify-content: center; }
+    .card-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; border: 1px solid #eee; padding: 20px; border-radius: 8px; }
+    .product-image img { width: 100%; height: auto; border-radius: 4px; }
+    .product-price { font-size: 1.5rem; color: #333; font-weight: bold; }
+    .variant-dropdown { width: 100%; padding: 10px; margin: 10px 0 20px; }
+    .add-to-cart-btn { background: #000; color: #fff; border: none; padding: 15px 30px; width: 100%; cursor: pointer; text-transform: uppercase; font-weight: bold; }
+    .add-to-cart-btn:disabled { background: #ccc; cursor: not-allowed; }
+{% endstylesheet %}
+
+{% schema %}
+    {
+        "name": "Featured Product",
+        "settings": [
+            {
+                "type": "product",
+                "id": "featured_product",
+                "label": "Featured Product",
+            }
+        ],
+        "presets": [
+            {
+                "name": "Featured Product Card"
+            }
+        ]
+    }
+{% endschema %}
+
+
+{% comment %} 
+{
+                "type": "image_picker",
+                "id": "image_picker",
+                "label": "Image Picker"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title of Product"
+            },
+            {
+                "type": "number",
+                "id": "price",
+                "label": "Product Price",
+                "placeholder": "$100"
+            },
+            {
+                "type": "select",
+                "id": "variants",
+                "label": "Variant Product",
+                "options": [
+                    {
+                        "value": "sm", "label": "Size Small",
+                    },
+                    {
+                        "value": "md", "label": "Size Medium",
+                    },
+                    {
+                        "value": "lg", "label": "Size Large",
+                    },
+                    {
+                        "value": "red", "label": "Color red"
+                    },
+                    {
+                        "value": "green", "label": "Color green"
+                    },
+                    {
+                        "value": "blue", "label": "Color blue"
+                    }
+                ]
+            },
+            {
+                "type": "text",
+                "id": "add_to_cart_button",
+                "label": "Add to cart",
+                "default": "Add to cart"
+            } 
+{% endcomment %}

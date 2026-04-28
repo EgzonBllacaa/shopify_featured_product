@@ -1,0 +1,8 @@
+{
+    "sections": {
+        "template": {
+            "name": "featured-products-task.liquid"
+        } 
+    },
+    "orders": ["template"]
+}

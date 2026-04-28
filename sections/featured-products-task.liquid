@@ -1,0 +1,31 @@
+<section>
+    <div>
+        {% for image in collection.products %}
+            <img src="{{ image.url | image_url: width: 300, height: 600 }}" width="" height="" alt="">
+        {% endfor %}
+    </div>
+    <div>
+        <h2></h2>
+        <span></span>
+    </div>
+</section>
+
+
+{% schema %}
+    {
+        "name": "Testing schema",
+        "settings": [
+            {
+                "type": "text",
+                "id": "test",
+                "label": "testing ",
+                "default": "hello"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Testing Schema"
+            }
+        ]
+    }
+{% endschema %}
