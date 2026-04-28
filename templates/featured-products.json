@@ -4,5 +4,5 @@
             "name": "featured-products-task.liquid"
         } 
     },
-    "orders": ["template"]
+    "order": ["template"]
 }
