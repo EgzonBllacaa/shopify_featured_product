@@ -1,0 +1,8 @@
+{
+    "sections": {
+        "template": {
+            "name": "test.liquid"
+        } 
+    },
+    "order": ["template"]
+}
