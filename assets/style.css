@@ -31,6 +31,8 @@ section {
 .product-fit_colors .product-variants.colors {
     padding: 10px;
     background-color: red;
+    padding: 10px 10px;
+    border-radius: 10px
 }
 .product-variants.button_class {
     background: white;
@@ -145,4 +147,16 @@ section {
 .product-free_delivery {
     display: flex;
     flex-direction: column;
+}
+
+
+.product_selected_options {
+    display: flex;
+    margin-right: 8px;
+}
+.product_selected_options p {
+    margin-right: 8px;
+}
+.product-content p {
+    font-weight: bolder;
 }
